@@ -1655,10 +1655,31 @@ void CEditorScene::moveDrag(QGraphicsSceneMouseEvent *mouseEvent, QGraphicsItem*
 				if (item)
 				{
 					oldHovers.remove(item);
-					if (m_acceptedHovers.contains(item) || m_rejectedHovers.contains(item))
-						continue;
+
+					// #177 - ignore hovers when Ctrl is down
+					if (mouseEvent->modifiers() & Qt::ControlModifier) 
+					{
+						m_acceptedHovers.remove(item);
+						m_rejectedHovers.remove(item);
+					}
+					else
+					{
+						if (m_acceptedHovers.contains(item) || m_rejectedHovers.contains(item))
+							continue;
+					}
 
 					ItemDragTestResult result = item->acceptDragFromItem(dragItem);
+
+					// #177 - ignore hovers when Ctrl is down
+					// maybe bad idea here to ignore hover test when Ctrl is down...
+					// maybe better shift it to acceptDragFromItem?
+					if (mouseEvent->modifiers() & Qt::ControlModifier)
+						if (result == Accepted) {
+							result = Ignored;
+							citem->resetItemStateFlag(IS_Drag_Accepted);
+							citem->resetItemStateFlag(IS_Drag_Rejected);
+						}
+
 
 					if (result == Accepted)
 					{
@@ -1829,6 +1850,13 @@ void CEditorScene::finishDrag(QGraphicsSceneMouseEvent* mouseEvent, QGraphicsIte
 				citem->resetItemStateFlag(IS_Drag_Accepted);
 				citem->resetItemStateFlag(IS_Drag_Rejected);
 			}
+		}
+
+		// #177 - ignore hovers when Ctrl is down
+		if (mouseEvent->modifiers() & Qt::ControlModifier)
+		{
+			m_acceptedHovers.clear();
+			m_rejectedHovers.clear();
 		}
 
 		// inform the dragger

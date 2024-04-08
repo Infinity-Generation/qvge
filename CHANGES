@@ -1,4 +1,4 @@
-QVGE 0.7.x
+QVGE 0.7.0
 -------------------------------------------------------------------------------
 New features/improvements:
 - added "Select" main menu item
@@ -7,6 +7,7 @@ New features/improvements:
 - added action to clear nodes & edges appearance to defaults
 - added default context menu to the label editor (#146)
 - added editable label positions (#41) - works only for nodes
+- pressing Ctrl while dropping node on node does not merge them (#177) - works only for nodes
 
 Bugfixes:
 - fixed building with OGDF support (#130, #139)

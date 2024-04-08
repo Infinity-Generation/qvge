@@ -622,7 +622,7 @@ void CNodeEditorUIController::onSceneStatusChanged(int status)
         return;
 
     case SIS_Drag:
-        onSceneHint(tr("Shift - horizontal or vertical snap | Alt - toggle grid snap"));
+        onSceneHint(tr("Shift - horizontal or vertical snap | Alt - toggle grid snap | Ctrl - dont merge nodes on drop"));
         return;
 
     case SIS_Hover_Port:
