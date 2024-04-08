@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Qt Visual Graph Editor"
-#define MyAppVersion "0.7 (64 bit)"
+#define MyAppVersion "0.7.0 (64 bit)"
 #define MyAppPublisher "Ars L. Masiuk"
 #define MyAppURL "https://sourceforge.net/projects/qvge"
 #define MyAppExeName "qvgeapp.exe"
