@@ -13,7 +13,7 @@ It can be used freely, maintaining the information above.
 #include <QMouseEvent> 
 #include <QScrollBar> 
 #include <QGuiApplication>
-#include <QGLWidget>
+#include <QOpenGLWidget>
 #include <QDebug> 
 
 
@@ -81,7 +81,7 @@ void CEditorView::fitToView()
 
 	fitInView(scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
 
-	m_currentZoom = matrix().m11();
+	m_currentZoom = transform().m11();
 
 	Q_EMIT scaleChanged(m_currentZoom);
 }
@@ -104,7 +104,7 @@ void CEditorView::fitSelectedToView()
 
 	fitInView(r, Qt::KeepAspectRatio);
 
-	m_currentZoom = matrix().m11();
+	m_currentZoom = transform().m11();
 
 	Q_EMIT scaleChanged(m_currentZoom);
 }
@@ -354,7 +354,7 @@ void CEditorView::wheelEvent(QWheelEvent *e)
 	if ((e->modifiers() & Qt::ControlModifier) == Qt::ControlModifier
 		&& e->angleDelta().x() == 0) 
 	{
-		QPoint  pos = e->pos();
+		QPoint  pos = e->position().toPoint();
 		QPointF posf = this->mapToScene(pos);
 
 		double by = 1.0;

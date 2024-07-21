@@ -44,7 +44,7 @@ CEdge::CEdge(QGraphicsItem *parent): Shape(parent)
 
 	// label
 	m_labelItem = new QGraphicsSimpleTextItem(this);
-	m_labelItem->setFlags(0);
+	m_labelItem->setFlags(static_cast<QGraphicsItem::GraphicsItemFlags>(0));
 	m_labelItem->setCacheMode(DeviceCoordinateCache);
 	m_labelItem->setPen(Qt::NoPen);
 	m_labelItem->setAcceptedMouseButtons(Qt::NoButton);

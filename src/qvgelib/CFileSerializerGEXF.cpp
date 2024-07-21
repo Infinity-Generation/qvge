@@ -149,7 +149,7 @@ bool CFileSerializerGEXF::readAttrs(int /*index*/, const QDomNode &domNode, CEdi
 			// visibility attr
 			if (attrId == "_vis_")
 			{
-				auto visList = def.splitRef('|');
+				auto visList = def.split('|');
 				for (auto& id : visList)
 					scene.setClassAttributeVisible(classId, id.toLatin1());
 				continue;
@@ -206,7 +206,7 @@ bool CFileSerializerGEXF::readNode(int index, const QDomNode &domNode, const IdT
 		QDomElement viz_elem = viz_pos.at(0).toElement();
 		float x = viz_elem.attribute("x", "0").toFloat();
 		float y = viz_elem.attribute("y", "0").toFloat();
-		float z = viz_elem.attribute("z", QString(index)).toFloat();
+		float z = viz_elem.attribute("z", QString::number(index)).toFloat();
 		node->setPos(x, y);
 		node->setZValue(z);
 	}
@@ -406,7 +406,7 @@ bool CFileSerializerGEXF::save(const QString& fileName, CEditorScene& scene, QSt
 		return false;
 
 	QTextStream ts(&file);
-	ts.setCodec("UTF-8");
+	ts.setEncoding(QStringConverter::Utf8);
 
 	// header
 	ts << 

@@ -2,7 +2,7 @@
 This file is a part of
 QVGE - Qt Visual Graph Editor
 
-(c) 2016-2021 Ars L. Masiuk (ars.masiuk@gmail.com)
+(c) 2016-2020 Ars L. Masiuk (ars.masiuk@gmail.com)
 
 It can be used freely, maintaining the information above.
 */
@@ -137,7 +137,7 @@ QSet<QByteArray> CItem::getVisibleAttributeIds(int flags) const
 	QSet<QByteArray> result;
 
 	if (flags == VF_ANY || flags == VF_TOOLTIP)
-        result = getLocalAttributes().keys().toSet();
+        result = QSet<QByteArray>(getLocalAttributes().keys().begin(), getLocalAttributes().keys().end());
 
 	if (flags == VF_LABEL)
 		result += "label";
@@ -145,7 +145,7 @@ QSet<QByteArray> CItem::getVisibleAttributeIds(int flags) const
 	if (auto scene = getScene())
 	{
 		if (flags == VF_ANY || flags == VF_TOOLTIP)
-			result += scene->getClassAttributes(classId(), false).keys().toSet();
+			result += QSet<QByteArray>(scene->getClassAttributes(classId(), false).keys().begin(), scene->getClassAttributes(classId(), false).keys().end());
 		else
 			result += scene->getVisibleClassAttributes(classId(), false);
 	}

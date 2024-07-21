@@ -47,23 +47,16 @@ void CPDFExport::readSettings(QSettings& settings)
 	settings.beginGroup("PDFExport");
 
 	auto size = settings.value("PaperSize").toSize();
-	QPageSize pageSize(size);
-	m_printer->setPageSize(pageSize);
-
 	QString paperName = settings.value("PaperName").toString();
-	m_printer->setPaperName(paperName);
 
-#ifdef Q_OS_WIN32
-	int id = settings.value("WinPageSize").toInt();
-	m_printer->setWinPageSize(id);
-#endif
+	m_printer->setPageSize(QPageSize(size, paperName));
 
-	QPrinter::Margins mm;
-	mm.left = settings.value("MarginLeft").toDouble();
-	mm.right = settings.value("MarginRight").toDouble();
-	mm.top = settings.value("MarginTop").toDouble();
-	mm.bottom = settings.value("MarginBottom").toDouble();
-	m_printer->setMargins(mm);
+	QMarginsF mm;
+	mm.setLeft(settings.value("MarginLeft").toDouble());
+	mm.setRight(settings.value("MarginRight").toDouble());
+	mm.setTop(settings.value("MarginTop").toDouble());
+	mm.setBottom(settings.value("MarginBottom").toDouble());
+	m_printer->setPageMargins(mm);
 
 	//QMarginsF mmf(mm.left, mm.top, mm.right, mm.bottom);
 	//QPageLayout pl(pageSize, QPageLayout::Portrait, mmf);
@@ -80,20 +73,14 @@ void CPDFExport::writeSettings(QSettings& settings)
 	auto size = m_printer->pageLayout().pageSize().sizePoints();
 	settings.setValue("PaperSize", size);
 
-	QString paper = m_printer->paperName();
+	QString paper = m_printer->pageLayout().pageSize().name();
 	settings.setValue("PaperName", paper);
 
-#ifdef Q_OS_WIN32
-	int id = m_printer->winPageSize();
-	settings.setValue("WinPageSize", id);
-#endif
-
-
-	auto mm = m_printer->margins();
-	settings.setValue("MarginLeft", mm.left);
-	settings.setValue("MarginRight", mm.right);
-	settings.setValue("MarginTop", mm.top);
-	settings.setValue("MarginBottom", mm.bottom);
+	auto mm = m_printer->pageLayout().margins();
+	settings.setValue("MarginLeft", mm.left());
+	settings.setValue("MarginRight", mm.right());
+	settings.setValue("MarginTop", mm.top());
+	settings.setValue("MarginBottom", mm.bottom());
 	settings.endGroup();
 	settings.sync();
 }
@@ -103,9 +90,9 @@ bool CPDFExport::setupDialog(CEditorScene& scene)
 {
 	auto bbox = scene.itemsBoundingRect();
 	if (bbox.width() > bbox.height())
-		m_printer->setOrientation(QPrinter::Landscape);
+		m_printer->pageLayout().setOrientation(QPageLayout::Landscape);
 	else
-		m_printer->setOrientation(QPrinter::Portrait);
+		m_printer->pageLayout().setOrientation(QPageLayout::Portrait);
 
 #ifdef Q_OS_WIN32
 	if (m_pageDialog.exec() == QDialog::Rejected)
@@ -131,9 +118,9 @@ bool CPDFExport::save(const QString& fileName, CEditorScene& scene, QString* /*l
 	tempScene->crop();
 
 	QPdfWriter writer(fileName);
-	writer.setPageSize(m_printer->pageSize());
-	writer.setPageOrientation(m_printer->orientation() == QPrinter::Landscape ? QPageLayout::Landscape : QPageLayout::Portrait);
-	writer.setMargins(m_printer->margins());
+	writer.setPageSize(m_printer->pageLayout().pageSize());
+	writer.setPageOrientation(m_printer->pageLayout().orientation());
+	writer.pageLayout().setMargins(m_printer->pageLayout().margins());
 
 	QPainter painter(&writer);
 	painter.setRenderHint(QPainter::Antialiasing);

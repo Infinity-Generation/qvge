@@ -5,6 +5,7 @@
 #include <QColor>
 #include <QFont>
 #include <QTextStream>
+#include <QIODevice>
 
 #include <cmath>
 
@@ -14,7 +15,7 @@ QVariant CUtils::textToVariant(const QString& text, int type)
     switch (type)
     {
 	case QMetaType::QStringList:
-		return text.split('|', QString::SkipEmptyParts);
+		return text.split('|', Qt::SkipEmptyParts);
 
     case QVariant::Int:
         return text.toInt();
@@ -118,13 +119,14 @@ QString CUtils::penStyleToText(int style)
 
 QString CUtils::visToString(const QSet<QByteArray>& visIds)
 {
-	return visIds.toList().join('|');
+	return QList<QByteArray>(visIds.begin(), visIds.end()).join('|');
 }
 
 
 QSet<QByteArray> CUtils::visFromString(const QString& text)
 {
-	return text.toUtf8().split('|').toSet();
+	auto split = text.toUtf8().split('|');
+	return QSet<QByteArray>(split.begin(), split.end());
 }
 
 
@@ -183,7 +185,7 @@ QPointF CUtils::closestIntersection(const QLineF& line, const QPolygonF& endPoly
 	{
 		p2 = endPolygon.at(i);
 		QLineF polyLine = QLineF(p1, p2);
-		QLineF::IntersectType intersectType = polyLine.intersect(line, &intersectPoint);
+		QLineF::IntersectType intersectType = polyLine.intersects(line, &intersectPoint);
 		if (intersectType == QLineF::BoundedIntersection)
 			return intersectPoint;
 

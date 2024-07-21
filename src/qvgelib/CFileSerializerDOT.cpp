@@ -27,7 +27,7 @@ bool CFileSerializerDOT::save(const QString& fileName, CEditorScene& scene, QStr
 	if (saveFile.open(QFile::WriteOnly))
 	{
         QTextStream ts(&saveFile);
-		ts.setCodec("UTF-8");
+		ts.setEncoding(QStringConverter::Utf8);
 		//ts.setGenerateByteOrderMark(true);
 
         QString graphId = QFileInfo(fileName).completeBaseName();
@@ -131,7 +131,7 @@ void CFileSerializerDOT::doWriteNodeDefaults(QTextStream& ts, const CEditorScene
 	// add visible state if any
 	QSet<QByteArray> visSet = scene.getVisibleClassAttributes("node", false);
 	if (!visSet.isEmpty())
-		nodeAttrs["_vis_"] = visSet.toList().join('|');
+		nodeAttrs["_vis_"] = QList<QByteArray>(visSet.begin(), visSet.end()).join('|');
 
 	// write it down
 	if (nodeAttrs.size())
@@ -240,7 +240,7 @@ void CFileSerializerDOT::doWriteEdgeDefaults(QTextStream& ts, const CEditorScene
 	// add visible state if any
 	QSet<QByteArray> visSet = scene.getVisibleClassAttributes("edge", false);
 	if (!visSet.isEmpty())
-		edgeAttrs["_vis_"] = visSet.toList().join('|');
+		edgeAttrs["_vis_"] = QList<QByteArray>(visSet.begin(), visSet.end()).join('|');
 
 	// write it down
 	if (edgeAttrs.size())

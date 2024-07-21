@@ -40,7 +40,7 @@ bool CFileSerializerCSV::load(const QString& fileName, CEditorScene& scene, QStr
     while (!ts.atEnd())
     {
         QString line = ts.readLine();
-        QStringList items = line.split(m_delimiter, QString::SkipEmptyParts);
+        QStringList items = line.split(m_delimiter, Qt::SkipEmptyParts);
         if (items.size() < 3)
             continue;
 

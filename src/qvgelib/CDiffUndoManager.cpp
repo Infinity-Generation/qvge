@@ -12,6 +12,7 @@ It can be used freely, maintaining the information above.
 #include "CEditorScene.h"
 
 #include <QDataStream>
+#include <QIODevice>
 
 
 CDiffUndoManager::CDiffUndoManager(CEditorScene & scene)

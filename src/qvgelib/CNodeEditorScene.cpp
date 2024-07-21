@@ -1022,7 +1022,7 @@ QList<QGraphicsItem*> CNodeEditorScene::getCopyPasteItems() const
 			result << item;
 	}
 
-	result << nodes.toList();
+	result << QList<QGraphicsItem*>(nodes.begin(), nodes.end());
 
     return result;
 }
