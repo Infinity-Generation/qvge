@@ -25,8 +25,8 @@ target_sources(qvgelib
         ${qvgelib_SRCS}
 )
 target_include_directories(qvgelib
-    PRIVATE
-        ../../src
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../src
 )
 
 target_link_libraries(qvgelib
