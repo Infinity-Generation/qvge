@@ -11,8 +11,6 @@ if (${QT_VERSION} VERSION_LESS 5.11.0)
   message(FATAL_ERROR "Requires qt version >= 5.11.0, Your current version is ${QT_VERSION}")
 endif()
 
-set(CMAKE_AUTOMOC ON)
-
 file(GLOB qvgelib_SRCS
     "*.cpp"
 )
@@ -48,5 +46,3 @@ set_target_properties(qvgelib
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
-
-qt_finalize_target(qvgelib)
