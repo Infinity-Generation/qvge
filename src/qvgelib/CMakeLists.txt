@@ -1,5 +1,7 @@
 message(STATUS "[qvge] QT_VERSION: ${QT_VERSION}, QT_DIR: ${QT_DIR}")
 
+find_package(OpenGL REQUIRED)
+
 if (${QT_VERSION} VERSION_LESS 5.11.0)
   message(FATAL_ERROR "Requires qt version >= 5.11.0, Your current version is ${QT_VERSION}")
 endif()
@@ -20,6 +22,8 @@ target_sources(qvgelib
 target_include_directories(qvgelib
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/../../src
+    PRIVATE
+        ${OPENGL_INCLUDE_DIRS}
 )
 
 target_link_libraries(qvgelib
@@ -31,6 +35,7 @@ target_link_libraries(qvgelib
         Qt${QT_VERSION_MAJOR}::PrintSupport
         Qt${QT_VERSION_MAJOR}::Svg
         Qt${QT_VERSION_MAJOR}::Xml
+        ${OPENGL_LIBRARIES}
         qvgeio
 )
 
