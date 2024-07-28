@@ -9,6 +9,12 @@ It can be used freely, maintaining the information above.
 
 #pragma once
 
+// Undefine Windows macros that collide with limit functions
+#ifdef _WIN32
+#undef min
+#undef max
+#endif
+
 #include <QByteArray>
 #include <QString>
 #include <QVariant>
@@ -19,6 +25,7 @@ It can be used freely, maintaining the information above.
 
 #include <qvgeio/CGraphBase.h>
 
+#include <limits>
 
 // attribute class
 
