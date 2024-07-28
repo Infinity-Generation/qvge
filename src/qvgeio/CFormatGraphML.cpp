@@ -28,7 +28,6 @@ bool CFormatGraphML::save(const QString& fileName, Graph& graph, QString* lastEr
 	}
 
 	QXmlStreamWriter xsw(&file);
-	xsw.setCodec("UTF-8");
 	xsw.setAutoFormatting(true);
 	xsw.setAutoFormattingIndent(4);
 
@@ -158,9 +157,9 @@ void CFormatGraphML::writeAttributes(QXmlStreamWriter &xsw, const AttributeInfos
 
 		switch (attr.valueType)
 		{
-		case QVariant::Int:			xsw.writeAttribute("attr.type", "integer"); break;
-		case QVariant::LongLong:	xsw.writeAttribute("attr.type", "long"); break;
-		case QVariant::Double:		xsw.writeAttribute("attr.type", "double"); break;
+		case QMetaType::Int:		xsw.writeAttribute("attr.type", "integer"); break;
+		case QMetaType::LongLong:	xsw.writeAttribute("attr.type", "long"); break;
+		case QMetaType::Double:		xsw.writeAttribute("attr.type", "double"); break;
 		case QMetaType::Float:		xsw.writeAttribute("attr.type", "float"); break;
 		case QMetaType::Bool:		xsw.writeAttribute("attr.type", "boolean"); break;
 		default:					xsw.writeAttribute("attr.type", "string"); break;
@@ -276,15 +275,15 @@ bool CFormatGraphML::readAttrKey(int /*index*/, const QDomNode& domNode, Graph& 
 	attr.name = attrName;
 
 	if (valueType == "integer"/* || valueType == "long"*/) {
-		attr.valueType = QVariant::Int;
+		attr.valueType = QMetaType::Int;
 		attr.defaultValue.setValue(defaultValue.toInt());
 	}
 	else if (valueType == "long") {
-		attr.valueType = QVariant::LongLong;
+		attr.valueType = QMetaType::LongLong;
 		attr.defaultValue.setValue(defaultValue.toLongLong());
 	}
 	else if (valueType == "double") {
-		attr.valueType = QVariant::Double;
+		attr.valueType = QMetaType::Double;
 		attr.defaultValue.setValue(defaultValue.toDouble());
 	}
 	else if (valueType == "float") {

@@ -1,1 +1,2 @@
+add_subdirectory(qvgeio)
 add_subdirectory(qvgelib)

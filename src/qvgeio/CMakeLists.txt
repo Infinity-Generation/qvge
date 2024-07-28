@@ -1,40 +1,35 @@
-message(STATUS "[qvge] QT_VERSION: ${QT_VERSION}, QT_DIR: ${QT_DIR}")
+message(STATUS "[qvgeio] QT_VERSION: ${QT_VERSION}, QT_DIR: ${QT_DIR}")
 
 if (${QT_VERSION} VERSION_LESS 5.11.0)
   message(FATAL_ERROR "Requires qt version >= 5.11.0, Your current version is ${QT_VERSION}")
 endif()
 
-file(GLOB qvgelib_SRCS
+file(GLOB qvgeio_SRCS
     "*.cpp"
 )
-file(GLOB qvgelib_HDRS
+file(GLOB qvgeio_HDRS
     "*.h"
 )
 
-qt_add_library(qvgelib STATIC)
+qt_add_library(qvgeio STATIC)
 
-target_sources(qvgelib
+target_sources(qvgeio
     PRIVATE
-        ${qvgelib_SRCS}
+        ${qvgeio_SRCS}
 )
-target_include_directories(qvgelib
+target_include_directories(qvgeio
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/../../src
 )
 
-target_link_libraries(qvgelib
+target_link_libraries(qvgeio
     PUBLIC
         Qt${QT_VERSION_MAJOR}::Core
         Qt${QT_VERSION_MAJOR}::Widgets
-        Qt${QT_VERSION_MAJOR}::Gui
-        Qt${QT_VERSION_MAJOR}::OpenGLWidgets
-        Qt${QT_VERSION_MAJOR}::PrintSupport
-        Qt${QT_VERSION_MAJOR}::Svg
         Qt${QT_VERSION_MAJOR}::Xml
-        qvgeio
 )
 
-set_target_properties(qvgelib
+set_target_properties(qvgeio
   PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib

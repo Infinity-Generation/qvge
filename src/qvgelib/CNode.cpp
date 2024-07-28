@@ -187,7 +187,8 @@ bool CNode::setAttribute(const QByteArray& attrId, const QVariant& v)
 	// mapped attributes
 	if (attrId == "size")
 	{
-		if (v.type() == QVariant::Size || v.type() == QVariant::SizeF)
+		if (static_cast<QMetaType::Type>(v.metaType().id()) == QMetaType::QSize ||
+			static_cast<QMetaType::Type>(v.metaType().id()) == QMetaType::QSizeF)
 		{
 			QSizeF sp = v.toSizeF();
 			if (!sp.isNull())

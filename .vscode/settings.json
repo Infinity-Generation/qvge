@@ -1,5 +1,8 @@
 {
     "terminal.integrated.env.windows": {
         "PATH": "${env:PATH};${env:QTDIR}/bin;${env:QTDIR}/lib"
+    },
+    "files.associations": {
+        "xlocale": "cpp"
     }
 }
