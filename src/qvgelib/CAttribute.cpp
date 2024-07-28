@@ -15,7 +15,7 @@ It can be used freely, maintaining the information above.
 CAttribute::CAttribute():
 	flags(ATTR_NONE)
 {
-	valueType = QVariant::String;
+	valueType = QMetaType::QString;
 }
 
 
@@ -26,7 +26,7 @@ CAttribute::CAttribute(const QByteArray& attrId, const QString& attrName) :
 	name = attrName;
 	if (name.isEmpty()) name = id;
 	
-	valueType = QVariant::String;
+	valueType = QMetaType::QString;
 }
 
 
@@ -40,7 +40,7 @@ CAttribute::CAttribute(
 	id = attrId;
 	name = attrName.isEmpty() ? id : attrName;
 	
-	valueType = defaultValue_.type();
+	valueType = static_cast<QMetaType::Type>(defaultValue_.metaType().id());
 	defaultValue = (flags & ATTR_NODEFAULT) ? QVariant() : defaultValue_;
 }
 
@@ -73,7 +73,7 @@ bool CAttribute::restoreFrom(QDataStream& out, quint64 version64)
 	}
 
 	if (version64 < 10)
-		valueType = defaultValue.type();
+		valueType = static_cast<QMetaType::Type>(defaultValue.metaType().id());
 	else
 		out >> valueType;
 

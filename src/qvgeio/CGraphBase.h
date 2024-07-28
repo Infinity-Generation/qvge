@@ -34,7 +34,7 @@ struct AttrInfo
 {
 	QByteArray id;
 	QString name;
-	int valueType = 0;
+	QMetaType::Type valueType = QMetaType::UnknownType;
 	QVariant defaultValue;
 };
 

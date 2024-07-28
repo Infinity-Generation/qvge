@@ -24,8 +24,8 @@ It can be used freely, maintaining the information above.
 class CUtils
 {
 public:
-	static QString variantToText(const QVariant& v, int type = -1);
-    static QVariant textToVariant(const QString& text, int type = QVariant::String);
+	static QString variantToText(const QVariant& v, QMetaType::Type type = QMetaType::UnknownType);
+    static QVariant textToVariant(const QString& text, QMetaType::Type type = QMetaType::QString);
 
     static Qt::PenStyle textToPenStyle(const QString& text, Qt::PenStyle def = Qt::NoPen);
 	static QString penStyleToText(int style);

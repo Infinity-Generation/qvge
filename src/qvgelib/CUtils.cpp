@@ -10,32 +10,32 @@
 #include <cmath>
 
 
-QVariant CUtils::textToVariant(const QString& text, int type)
+QVariant CUtils::textToVariant(const QString& text, QMetaType::Type type)
 {
     switch (type)
     {
 	case QMetaType::QStringList:
 		return text.split('|', Qt::SkipEmptyParts);
 
-    case QVariant::Int:
+    case QMetaType::Int:
         return text.toInt();
 
-    case QVariant::Double:
+    case QMetaType::Double:
         return text.toDouble();
 
 	case QMetaType::Float:
 		return text.toFloat();
 
-    case QVariant::Bool:
+    case QMetaType::Bool:
         if (text.toLower() == "true")
             return true;
         else
             return false;
 
-	case QVariant::Color:
+	case QMetaType::QColor:
 		return QColor(text);
 
-	case QVariant::Font:
+	case QMetaType::QFont:
 	{
 		QFont f;
 		f.fromString(text);
@@ -48,29 +48,29 @@ QVariant CUtils::textToVariant(const QString& text, int type)
 }
 
 
-QString CUtils::variantToText(const QVariant& v, int type)
+QString CUtils::variantToText(const QVariant& v, QMetaType::Type type)
 {
-	if (type < 0)
-		type = v.type();
+	if (type == 0)
+		type = static_cast<QMetaType::Type>(v.metaType().id());
 
 	switch (type)
 	{
-	case QVariant::Point:
+	case QMetaType::QPoint:
 		return QString("%1;%2").arg(v.toPoint().x()).arg(v.toPoint().y());
 
-	case QVariant::PointF:
+	case QMetaType::QPointF:
 		return QString("%1;%2").arg(v.toPointF().x()).arg(v.toPointF().y());
 
-	case QVariant::Size:
+	case QMetaType::QSize:
 		return QString("%1:%2").arg(v.toSize().width()).arg(v.toSize().height());
 
-	case QVariant::SizeF:
+	case QMetaType::QSizeF:
 		return QString("%1:%2").arg(v.toSizeF().width()).arg(v.toSizeF().height());
 
-	case QVariant::Bool:
+	case QMetaType::Bool:
 		return v.toBool() ? "true" : "false";
 
-	case QVariant::Double:
+	case QMetaType::Double:
 		return QString::number(v.toDouble(), 'f', 4);
 
 	case QMetaType::Float:

@@ -1,10 +1,3 @@
-if(USE_QT6)
-  find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
-else()
-  find_package(QT NAMES Qt5 REQUIRED COMPONENTS Widgets)
-endif()
-
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets Gui OpenGLWidgets PrintSupport Svg Xml)
 message(STATUS "[qvge] QT_VERSION: ${QT_VERSION}, QT_DIR: ${QT_DIR}")
 
 if (${QT_VERSION} VERSION_LESS 5.11.0)

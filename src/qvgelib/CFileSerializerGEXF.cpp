@@ -104,7 +104,7 @@ bool CFileSerializerGEXF::readAttrs(int /*index*/, const QDomNode &domNode, CEdi
             attrId = id;
         QByteArray type = attrElem.attribute("type", "").toLatin1();
 
-        AttrInfo attrInfo = {attrId, 0};
+        AttrInfo attrInfo = {attrId, QMetaType::UnknownType};
 
 		QString def;
 		auto defs = attrElem.elementsByTagName("default");
@@ -113,23 +113,23 @@ bool CFileSerializerGEXF::readAttrs(int /*index*/, const QDomNode &domNode, CEdi
 
         if (type == "integer" || type == "long")
         {
-            attrInfo.variantType = QVariant::Int;
+            attrInfo.variantType = QMetaType::Int;
         }
         else if (type == "double" || type == "float")
         {
-            attrInfo.variantType = QVariant::Double;
+            attrInfo.variantType = QMetaType::Double;
         }
         else if (type == "boolean")
         {
-            attrInfo.variantType = QVariant::Bool;
+            attrInfo.variantType = QMetaType::Bool;
         }
 		else if (type == "liststring")
 		{
-			attrInfo.variantType = QVariant::StringList;
+			attrInfo.variantType = QMetaType::QStringList;
 		}
         else    // string
         {
-            attrInfo.variantType = QVariant::String;
+            attrInfo.variantType = QMetaType::QString;
         }
 
 
@@ -156,7 +156,7 @@ bool CFileSerializerGEXF::readAttrs(int /*index*/, const QDomNode &domNode, CEdi
 			}
 
 			// stringlists
-			if (attrInfo.variantType == QVariant::StringList)
+			if (attrInfo.variantType == QMetaType::QStringList)
 			{
 				attr.defaultValue = def.split('|');
 				continue;

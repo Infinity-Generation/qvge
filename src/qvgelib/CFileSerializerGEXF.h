@@ -51,7 +51,7 @@ public:
 private:
     struct AttrInfo {
         QByteArray id;
-        int variantType;
+        QMetaType::Type variantType;
     };
     typedef QMap<QByteArray, AttrInfo> IdToAttrMap;
     mutable QMap<QByteArray, IdToAttrMap> m_classIdMap;

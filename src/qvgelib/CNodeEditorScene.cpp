@@ -196,7 +196,7 @@ bool CNodeEditorScene::toGraph(Graph& g)
 
 
 	// visibility
-	static AttrInfo _vis_({ attr_labels_visIds , "Visible Labels", QVariant::StringList});
+	static AttrInfo _vis_({ attr_labels_visIds , "Visible Labels", QMetaType::QStringList});
 
 	auto nodeVis = getVisibleClassAttributes("node", false);
 	if (nodeVis.size())
